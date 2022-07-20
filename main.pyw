@@ -7,10 +7,6 @@ import winreg
 def launch_panzer(value: str, type: int) -> None:
     '''
 
-
-    :param value:
-    :param type:
-    :return:
     '''
     save_registry(value, type)
 
@@ -33,9 +29,6 @@ def save_registry(value: str, type: int) -> None:
     '''
     Save value to registry
 
-    :param value:
-    :param type:
-    :return:
     '''
 
     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'SOFTWARE\Slitherine\Panzer Corps', 0, winreg.KEY_SET_VALUE) as key:
