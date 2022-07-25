@@ -4,11 +4,14 @@ import os
 import winreg
 
 
-def launch_panzer(value: str, type: int) -> None:
-    '''
+def launch_panzer(value: str, registry_type: int) -> None:
+    """
+    Launch steam Panzer Corps
 
-    '''
-    save_registry(value, type)
+    :param value: registry key value
+    :param registry_type: registry key value type
+    """
+    save_registry(value, registry_type)
 
     os.startfile('steam://rungameid/268400')
 
@@ -16,44 +19,42 @@ def launch_panzer(value: str, type: int) -> None:
 
 
 def read_registry() -> tuple:
-    '''
-    Get value to registry
+    """
+    Get value from registry
 
-    :return:
-    '''
+    :return: (registry key value, registry key value type)
+    """
     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'SOFTWARE\Slitherine\Panzer Corps') as key:
         return winreg.QueryValueEx(key, 'ActiveExpansion')
 
 
-def save_registry(value: str, type: int) -> None:
-    '''
+def save_registry(value: str, registry_type: int) -> None:
+    """
     Save value to registry
 
-    '''
+    :param value: registry key value
+    :param registry_type: registry key value type
+    """
 
     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'SOFTWARE\Slitherine\Panzer Corps', 0, winreg.KEY_SET_VALUE) as key:
-        winreg.SetValueEx(key, 'ActiveExpansion', 0, type, value)
+        winreg.SetValueEx(key, 'ActiveExpansion', 0, registry_type, value)
 
 
 def get_key(options_dict: dict, search_value: str) -> str:
-    '''
+    """
     Search dictionary key to value
 
-    :param options_dict:
-    :param search_value:
-    :return:
-    '''
+    :param options_dict: dictionary
+    :param search_value: value to search dictionary key
+    :return: dictionary key
+    """
     for key, value in options_dict.items():
         if value == search_value:
             return key
 
 
 if __name__ == '__main__':
-
     reg_value, reg_type = read_registry()
-    # print(reg_value)
-
-    save_registry('pc', reg_type)
 
     options = {'Panzer corps': 'pc',
                'Allied corps': 'ac',
@@ -74,7 +75,8 @@ if __name__ == '__main__':
     drop.pack()
 
     launch_button = Button(root, text='Launch Panzer Corps', command=lambda: launch_panzer(options.get(clicked.get()),
-                                                                                         reg_type))
+                                                                                           reg_type))
+
     launch_button.pack()
 
     root.mainloop()
